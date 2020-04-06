@@ -1,13 +1,15 @@
 .Post {
-    width: 100px;
+    width: 250px;
     padding: 16px;
     text-align: center;
     border: 1px solid #eee;
+    border-radius: 10px;
     box-shadow: 0 2px 3px #ccc;
     margin: 10px;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 
 .Post:hover,
 .Post:active {

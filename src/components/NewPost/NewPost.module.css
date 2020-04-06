@@ -20,9 +20,11 @@
     width: 80%;
     box-sizing: border-box;
     border: 1px solid black;
+    border-radius: 15px;
     outline: none;
     font: inherit;
     margin: auto;
+    padding: 10px 15px;
 }
 
 .NewPost button {
