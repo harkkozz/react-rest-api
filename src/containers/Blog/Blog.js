@@ -1,54 +1,45 @@
 import React, { Component } from 'react';
-
 import axios from 'axios';
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
+import Posts from '../Blog/Posts/Posts';
+import NewPost from './NewPost/NewPost';
 import classes from './Blog.module.css';
+import FullPost from './FullPost/FullPost';
+import { Route, NavLink } from 'react-router-dom';
 
 class Blog extends Component {
-  state = {
-    posts: [],
-    selectedPostId: null,
-  };
-
-  componentDidMount() {
-    axios.get('/posts')
-      .then(response => {
-        const posts = response.data.slice(0, 4);
-      const transformedData = posts.map(item => ({
-        ...item,
-        author: 'Haris'
-      }))
-        this.setState({ posts: transformedData });
-      })
-  }
-
-  postSelectedHandler = id => {
-    this.setState({ selectedPostId: id })
-  }
-
+  
    addNewPost = async data => {
     await axios.post('/posts', data);
-  }
+  };
+
   deletePost = async id => {
     await axios.delete(`/posts/${id}`);
-  }
+  };
+
   render () {
-    const posts = this.state.posts.map(post => 
-      <Post key={post.id} title={post.title} clicked={() => this.postSelectedHandler(post.id)} /> 
-    )
     return (
-      <div>
-        <section className={ classes.Posts }>
-          { posts }
-        </section>
-        <section>
-          <FullPost id={this.state.selectedPostId} removePost={ this.deletePost } />
-        </section>
-        <section>
-          <NewPost addPost={this.addNewPost}/>
-        </section>
+      <div className={ classes.Blog }>
+        <header>
+          <nav>
+            <ul>
+              <li><NavLink to="/" activeClassName="my-active" activeStyle={{
+                color: '#fa923f',
+                textDecoration: 'underline'
+              }}>Posts</NavLink></li>
+              <li><NavLink to={
+                {
+                  pathname: '/new-post',
+                  hash: '#submit',
+                  search: '?quick-submit=true'
+                }
+              }>New Post</NavLink></li>
+            </ul>
+          </nav>
+        </header>
+        {/* <Route path="/" exact render={() => <Posts />} /> */}
+        <Route path="/" exact component={Posts} />
+        <Route path="/new-post" component={NewPost} />
+        <Route path="/:id" exact component={FullPost} />
       </div>
     );
   }
